@@ -5,9 +5,8 @@ import app from "../../app.json";
 import Avatar from "../components/Avatar";
 import ColorContext from "../utils/ColorContext";
 import useGetAll from "../hooks/useGetAll";
-import { toto } from "../Firebase";
 
-export default function Identification() {
+export default function Identification({ navigation }) {
   const [, setColor] = useContext(ColorContext);
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
@@ -37,6 +36,10 @@ export default function Identification() {
     }
   };
 
+  const onNavigateHomePressed = () => {
+    navigation.navigate("Home");
+  };
+
   const header = (
     <View>
       <Text>{app.expo.name}</Text>
@@ -52,7 +55,7 @@ export default function Identification() {
         <Text>
           Bienvenu(e) {member.firstName} {member.lastName} !
         </Text>
-        <Button title="Aller à l'accueil" />
+        <Button title="Aller à l'accueil" onPress={onNavigateHomePressed} />
       </View>
     );
   }

@@ -1,23 +1,30 @@
 import { registerRootComponent } from "expo";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+
+import { useState } from "react";
+import { LogBox } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import Identification from "./screens/Identification";
+import Home from "./screens/Home";
+
+LogBox.ignoreLogs(["Setting a timer"]);
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [color, setColor] = useState(null);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ColorContext.Provider value={[color, setColor]}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Identification" component={Identification} />
+          <Stack.Screen name="Home" component={Home} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ColorContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 registerRootComponent(App);
