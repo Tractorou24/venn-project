@@ -1,0 +1,43 @@
+{
+  "name": "venn-project",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/App.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "format": "prettier --write {*,src/**/*}.{js,json}",
+    "lint": "eslint --cache .",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,json}": "prettier --write",
+    "package.json": "sort-package-json"
+  },
+  "eslintConfig": {
+    "extends": "@react-native-community",
+    "rules": {
+      "quotes": [
+        1,
+        "double"
+      ],
+      "react/react-in-jsx-scope": "off"
+    }
+  },
+  "dependencies": {
+    "babel-plugin-inline-dotenv": "^1.7.0",
+    "expo": "~44.0.0",
+    "expo-status-bar": "~1.2.0",
+    "expo-updates": "^0.11.6",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "0.64.3",
+    "react-native-web": "0.17.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "prettier": "^2.5.1"
+  }
+}
