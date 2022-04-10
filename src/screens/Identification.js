@@ -62,9 +62,12 @@ export default function Identification({ navigation }) {
 
   if (member) {
     return (
-      <View>
+      <View style={styles.global}>
         <View>{header}</View>
-        <Avatar label={member.firstName?.[0]} color={member.color} />
+        <Avatar
+          label={member.firstName?.[0] + " " + member.lastName?.[0]}
+          color={member.color}
+        />
         <Text style={styles.welcomeText}>
           Bienvenu(e) {member.firstName} {member.lastName} !
         </Text>
@@ -76,7 +79,7 @@ export default function Identification({ navigation }) {
   }
 
   return (
-    <View>
+    <View style={styles.global}>
       <View>{header}</View>
       <TextInput
         placeholder="Identifiant"
@@ -94,6 +97,10 @@ export default function Identification({ navigation }) {
 
 const createStyles = ({ screen }) =>
   StyleSheet.create({
+    global: {
+      flex: 0,
+      justifyContent: "center",
+    },
     input: {
       marginTop: screen.height / 2.8,
       borderColor: "gray",
@@ -131,7 +138,7 @@ const createStyles = ({ screen }) =>
       borderRadius: 5,
       alignItems: "center",
       justifyContent: "center",
-      height: 25,
+      height: 35,
     },
     buttonText: {
       color: "white",
@@ -140,7 +147,7 @@ const createStyles = ({ screen }) =>
       fontSize: 20,
       fontWeight: "bold",
       marginLeft: screen.width / 4,
-      marginTop: screen.height / 2.8,
+      marginTop: screen.height / 8,
       marginBottom: 20,
     },
   });
