@@ -1,5 +1,14 @@
 import { useContext, useState } from "react";
-import { Button, Image, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  Image,
+  Text,
+  TextInput,
+  View,
+  StyleSheet,
+  Dimensions,
+  Pressable,
+} from "react-native";
 
 import app from "../../app.json";
 import Avatar from "../components/Avatar";
@@ -11,6 +20,10 @@ export default function Identification({ navigation }) {
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
   const [member, setMember] = useState(null);
+  const screen = Dimensions.get("screen");
+  const styles = createStyles({
+    screen,
+  });
 
   const { data, loading, dbError } = useGetAll({ collection: "members" });
 
@@ -39,23 +52,25 @@ export default function Identification({ navigation }) {
   const onNavigateHomePressed = () => {
     navigation.navigate("Home");
   };
-
+  /**/
   const header = (
-    <View>
-      <Text>{app.expo.name}</Text>
-      <Image source={require("../../assets/icon.png")} />
+    <View style={styles.header}>
+      <Text style={styles.text}>{app.expo.name}</Text>
+      <Image style={styles.image} source={require("../../assets/icon.png")} />
     </View>
   );
 
   if (member) {
     return (
       <View>
-        {header}
+        <View>{header}</View>
         <Avatar label={member.firstName?.[0]} color={member.color} />
-        <Text>
+        <Text style={styles.welcomeText}>
           Bienvenu(e) {member.firstName} {member.lastName} !
         </Text>
-        <Button title="Aller à l'accueil" onPress={onNavigateHomePressed} />
+        <Pressable style={styles.button} onPress={onNavigateHomePressed}>
+          <Text style={styles.buttonText}>Aller à l'accueil</Text>
+        </Pressable>
       </View>
     );
   }
@@ -67,9 +82,65 @@ export default function Identification({ navigation }) {
         placeholder="Identifiant"
         value={value}
         onChangeText={onChange}
+        style={styles.input}
       />
       {error ? <Text>Désolé, tu n'es pas enregistré(e).</Text> : null}
-      <Button title="S'Identifier" onPress={onPress} />
+      <Pressable style={styles.button} onPress={onPress}>
+        <Text style={styles.buttonText}>S'identifier</Text>
+      </Pressable>
     </View>
   );
 }
+
+const createStyles = ({ screen }) =>
+  StyleSheet.create({
+    input: {
+      marginTop: screen.height / 2.8,
+      borderColor: "gray",
+      borderWidth: 1,
+      padding: 10,
+      marginHorizontal: 20,
+      borderRadius: 5,
+      marginBottom: 20,
+    },
+    header: {
+      flex: 0,
+      flexDirection: "row",
+      justifyContent: "space-around",
+      backgroundColor: "black",
+      borderBottomColor: "gray",
+      height: 70,
+    },
+    image: {
+      width: 50,
+      height: 50,
+      marginTop: 10,
+    },
+    text: {
+      color: "white",
+      fontSize: 20,
+      fontWeight: "bold",
+      marginTop: 18,
+      marginRight: 100,
+    },
+    button: {
+      flex: 0,
+      marginHorizontal: 50,
+      backgroundColor: "black",
+      color: "white",
+      borderRadius: 5,
+      alignItems: "center",
+      justifyContent: "center",
+      height: 25,
+    },
+    buttonText: {
+      color: "white",
+    },
+    welcomeText: {
+      fontSize: 20,
+      fontWeight: "bold",
+      marginLeft: screen.width / 4,
+      marginTop: screen.height / 2.8,
+      marginBottom: 20,
+    },
+  });
