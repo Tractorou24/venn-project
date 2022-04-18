@@ -67,6 +67,8 @@ export default function Identification({ navigation }) {
         <Avatar
           label={member.firstName?.[0] + " " + member.lastName?.[0]}
           color={member.color}
+          marginTop={screen.height / 5.5}
+          position="center"
         />
         <Text style={styles.welcomeText}>
           Bienvenu(e) {member.firstName} {member.lastName} !
