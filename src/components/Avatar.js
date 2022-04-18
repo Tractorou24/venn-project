@@ -1,10 +1,15 @@
-import { Text, View, StyleSheet, Dimensions } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 
 const SIZE = 100;
-const screen = Dimensions.get("screen");
 
-export default function Avatar({ color = "#000", label, size = SIZE }) {
-  const styles = createStyles({ color });
+export default function Avatar({
+  color = "#000",
+  label,
+  size = SIZE,
+  marginTop = 0,
+  position,
+}) {
+  const styles = createStyles({ color, marginTop, position });
   return (
     <View style={styles.container}>
       <Text style={styles.initials}>{label}</Text>
@@ -12,7 +17,7 @@ export default function Avatar({ color = "#000", label, size = SIZE }) {
   );
 }
 
-const createStyles = ({ color }) =>
+const createStyles = ({ color, marginTop, position }) =>
   StyleSheet.create({
     container: {
       flex: 0,
@@ -24,8 +29,8 @@ const createStyles = ({ color }) =>
       borderColor: color,
       alignItems: "center",
       justifyContent: "center",
-      alignSelf: "center",
-      marginTop: screen.height / 5.5,
+      alignSelf: position,
+      marginTop: marginTop,
     },
     initials: {
       fontSize: SIZE / 2.5,
