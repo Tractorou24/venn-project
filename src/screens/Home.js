@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ColorContext from "../utils/ColorContext";
 import Projects from ".//Projects";
 import Members from "./Members";
+import Contacts from "./Contacts";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,6 +33,15 @@ export default function Home() {
         options={{
           tabBarIcon: (props) => (
             <MaterialCommunityIcons name="briefcase-account" {...props} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Contacts"
+        component={Contacts}
+        options={{
+          tabBarIcon: (props) => (
+            <MaterialCommunityIcons name="account-box-multiple" {...props} />
           ),
         }}
       />
