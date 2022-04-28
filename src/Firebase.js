@@ -6,6 +6,7 @@ import {
   getFirestore,
   query,
   getDocFromCache,
+  addDoc,
 } from "firebase/firestore";
 
 const config = {
@@ -29,4 +30,13 @@ export async function getAll(name) {
 export async function getOne(name, id) {
   const snapshot = await getDocFromCache(doc(db, name, id));
   return parseDocument(snapshot);
+}
+
+export async function getOneFromCache(name, id) {
+  const snapshot = await getDocFromCache(doc(db, name, id));
+  return snapshot;
+}
+
+export default function add(name, data) {
+  return addDoc(collection(db, name), data);
 }

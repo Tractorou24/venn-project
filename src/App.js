@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Identification from "./screens/Identification";
 import Home from "./screens/Home";
+import NewProject from "./screens/NewProject";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
@@ -21,6 +22,7 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Identification" component={Identification} />
           <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="NewProject" component={NewProject} />
         </Stack.Navigator>
       </NavigationContainer>
     </ColorContext.Provider>

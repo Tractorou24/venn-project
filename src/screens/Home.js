@@ -8,7 +8,7 @@ import Members from "./Members";
 
 const Tab = createBottomTabNavigator();
 
-export default function Home() {
+export default function Home({ navigation }) {
   const [color] = useContext(ColorContext);
 
   return (
