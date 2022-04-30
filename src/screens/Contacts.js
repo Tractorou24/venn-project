@@ -8,6 +8,7 @@ import {
   Text,
   ScrollView,
   View,
+  Button,
 } from "react-native";
 
 import app from "../../app.json";
@@ -17,43 +18,97 @@ import React, { useEffect } from "react";
 export default function Contact() {
   const [member, setMember] = useState(null);
   const [error, setError] = useState(false);
-  const [allContacts, setAllContacts] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [letterFilter, setLetterFilter] = useState("");
   const styles = createStyles({
     color: member?.favoriteColor,
     error,
     member: Boolean(member),
   });
 
-  const filterItem = (curcat) => {
-    const newItem = allContacts.filter((newVal) => {
-      return newVal.category === curcat;
-      // comparing category for displaying data
-    });
-    setContacts(newItem);
-  };
+  // function filterItem() {
+  //   const newItem = allContacts.filter((newVal) => {
+  //     return newVal.filter((f) => f.type.toLowerCase().startsWith("a"));
+  //     // comparing category for displaying data
+  //   });
+  //   setContacts(newItem);
+  // }
   const header = (
     <View style={styles.header}>
       <Text style={styles.title}>{app.expo.name}</Text>
     </View>
   );
-  useEffect(() => {
+  const onNewPressed = (le) => {
+    setLetterFilter(le);
+    console.log("onNewPressed");
+  };
+  const alphabet = [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+  ];
+  function getContacts() {
     (async () => {
       const { status } = await Contacts.requestPermissionsAsync();
       if (status === "granted") {
         const { data: dataContact } = await Contacts.getContactsAsync();
 
         if (dataContact.length > 0) {
-          setAllContacts(dataContact);
-          setContacts(dataContact);
+          console.log(letterFilter);
+          if (letterFilter == "") {
+            setContacts(dataContact);
+          } else {
+            var result = dataContact.filter((item) => {
+              if (item.firstName != null) {
+                return item.firstName.toLowerCase().startsWith(letterFilter);
+              }
+            });
+            setContacts(result);
+          }
         }
       }
     })();
-  }, []);
+  }
+  useEffect(() => {
+    getContacts();
+  }, [letterFilter]);
 
   return (
     <ScrollView style={styles.root}>
       {header}
+      <View>
+        {alphabet.map((letter, index) => (
+          <View Key={index}>
+            <Button
+              title={letter}
+              onPress={() => onNewPressed(letter)}
+            ></Button>
+          </View>
+        ))}
+      </View>
       <View>
         {contacts.map((contact) => (
           <View Key={contact.id}>
