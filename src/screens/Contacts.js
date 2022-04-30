@@ -19,10 +19,12 @@ export default function Contact() {
   const [error, setError] = useState(false);
   const [allContacts, setAllContacts] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const screen = Dimensions.get("screen");
   const styles = createStyles({
     color: member?.favoriteColor,
     error,
     member: Boolean(member),
+    screen,
   });
 
   const filterItem = (curcat) => {
@@ -54,10 +56,10 @@ export default function Contact() {
   return (
     <ScrollView style={styles.root}>
       {header}
-      <View>
+      <View style={styles.separator}>
         {contacts.map((contact) => (
-          <View Key={contact.id}>
-            <Text>{contact.firstName}</Text>
+          <View Key={contact.id} style={styles.global}>
+            <Text style={styles.contactName}>{contact.firstName}</Text>
             <Image
               source={
                 contact.imageAvailable
@@ -73,10 +75,11 @@ export default function Contact() {
   );
 }
 
-const createStyles = ({ color, error, member }) =>
+const createStyles = ({ color, error, member, screen }) =>
   StyleSheet.create({
     root: {},
     header: {
+      flex: 0,
       flexDirection: error || member ? "row" : "column",
       alignItems: "center",
       justifyContent: "flex-end",
@@ -94,6 +97,8 @@ const createStyles = ({ color, error, member }) =>
       height: error || member ? 32 : 192,
       width: error || member ? 32 : 192,
       marginLeft: error || member ? 8 : 0,
+      alignSelf: "center",
+      marginVertical: 15,
     },
     greetings: {
       color: color,
@@ -118,5 +123,23 @@ const createStyles = ({ color, error, member }) =>
     },
     actions: {
       marginVertical: 16,
+    },
+    contactName: {
+      fontSize: 20,
+      fontWeight: "700",
+      alignSelf: "center",
+      marginVertical: 5,
+    },
+    global: {
+      flex: 0,
+      backgroundColor: "#a7a8a7",
+      flexDirection: "column",
+      padding: 10,
+      borderRadius: 10,
+      height: screen.height / 3,
+      margin: 10,
+    },
+    separator: {
+      padding: 10,
     },
   });
