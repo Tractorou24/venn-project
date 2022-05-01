@@ -44,7 +44,7 @@ export default function NewProject({ navigation }) {
 
   const sendAndRedirect = () => {
     const data = {
-      name: projectName,
+      title: projectName,
       participants: selectedUsers,
       description: projectDescription,
     };

@@ -1,18 +1,14 @@
-import { Text, View, ScrollView, Button } from "react-native";
-import { useState } from "react";
+import { Text, View, Button } from "react-native";
+import Avatar from "../components/Avatar";
+
 import useGetAll from "../hooks/useGetAll";
-export default function ProjectDetails({ route, navigation }) {
+
+export default function ProjectDetails({ navigation, route }) {
   const itemId = route.params?.itemId;
   const { data, loading, error } = useGetAll({ collection: "projects" });
   const users = useGetAll({ collection: "members" });
-  if (loading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-  if (users.loading) {
+
+  if (loading || users.loading) {
     return (
       <View>
         <Text>Loading...</Text>
@@ -20,9 +16,22 @@ export default function ProjectDetails({ route, navigation }) {
     );
   }
 
-  var project = data.find(function (project) {
+  if (error || users.error) {
+    return (
+      <View>
+        <Text>Error...</Text>
+      </View>
+    );
+  }
+
+  const project = data.find(function (project) {
     return project.id == itemId;
   });
+
+  const onEditPressed = () => {
+    navigation.navigate("EditProject", { id: project.id });
+  };
+
   var usersFind = [];
   for (var i = 0; i < users.data.length; i++) {
     if (project.participants.includes(users.data[i].id)) {
@@ -32,16 +41,19 @@ export default function ProjectDetails({ route, navigation }) {
 
   return (
     <View>
-      <Text>{project.name}</Text>
+      <Text>Name : {project.title}</Text>
       <Text>Description : {project.description}</Text>
       <Text>Users : </Text>
       {usersFind.map((user) => (
-        <View key={`${user.firstName}${user.lastName}`}>
-          <Text>
-            {user.firstName} {user.lastName}
-          </Text>
+        <View key={user.id}>
+          <Avatar
+            color={user.color}
+            label={user.firstName[0] + " " + user.lastName[0]}
+            position="center"
+          />
         </View>
       ))}
+      <Button title="Edit" onPress={onEditPressed}></Button>
     </View>
   );
 }

@@ -9,6 +9,7 @@ import Identification from "./screens/Identification";
 import Home from "./screens/Home";
 import NewProject from "./screens/NewProject";
 import EditProject from "./screens/EditProject";
+import ProjectDetails from "./screens/ProjectDetails";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
@@ -24,6 +25,7 @@ export default function App() {
           <Stack.Screen name="Identification" component={Identification} />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="NewProject" component={NewProject} />
+          <Stack.Screen name="ProjectDetails" component={ProjectDetails} />
           <Stack.Screen name="EditProject" component={EditProject} />
         </Stack.Navigator>
       </NavigationContainer>
