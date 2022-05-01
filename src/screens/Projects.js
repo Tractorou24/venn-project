@@ -1,4 +1,4 @@
-import { Text, View, ScrollView, Button } from "react-native";
+import { Text, View, ScrollView, Button, Pressable } from "react-native";
 
 import ColorContext from "../utils/ColorContext";
 import useGetAll from "../hooks/useGetAll";
@@ -9,6 +9,9 @@ export default function Projects({ navigation }) {
 
   const onNewPressed = () => {
     navigation.navigate("NewProject");
+  };
+  const onProjectPressed = (id) => {
+    navigation.navigate("ProjectDetails", { itemId: id });
   };
 
   if (loading) {
@@ -33,7 +36,13 @@ export default function Projects({ navigation }) {
       <Button onPress={onNewPressed} title="Create new"></Button>
       <ScrollView>
         {data.map((project) => (
-          <Project key={project.id} project={project} />
+          <Pressable
+            key={project.id}
+            onPress={() => onProjectPressed(project.id)}
+            title=""
+          >
+            <Project key={project.id} project={project} />
+          </Pressable>
         ))}
       </ScrollView>
     </View>
