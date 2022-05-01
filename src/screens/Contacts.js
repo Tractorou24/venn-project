@@ -8,7 +8,7 @@ import {
   Text,
   ScrollView,
   View,
-  Button,
+  Pressable,
 } from "react-native";
 
 import app from "../../app.json";
@@ -70,13 +70,22 @@ export default function Contact() {
       <View>
         {alphabet.map((letter, index) => (
           <View key={index}>
-            <Button
+            <Pressable
               title={letter}
               onPress={() => onNewPressed(letter)}
-            ></Button>
+              style={styles.Button}
+            >
+              <Text style={styles.buttonText}>{letter}</Text>
+            </Pressable>
           </View>
         ))}
-        <Button title="All" onPress={() => onNewPressed("")}></Button>
+        <Pressable
+          style={styles.Button}
+          title="All"
+          onPress={() => onNewPressed("")}
+        >
+          <Text style={styles.buttonText}>All</Text>
+        </Pressable>
       </View>
       <View style={styles.separator}>
         {contacts.map((contact) => (
@@ -163,5 +172,19 @@ const createStyles = ({ color, error, member, screen }) =>
     },
     separator: {
       padding: 10,
+    },
+    Button: {
+      flex: 0,
+      marginHorizontal: 50,
+      backgroundColor: "black",
+      color: "white",
+      borderRadius: 5,
+      alignItems: "center",
+      justifyContent: "center",
+      height: 35,
+      marginTop: 10,
+    },
+    buttonText: {
+      color: "white",
     },
   });
