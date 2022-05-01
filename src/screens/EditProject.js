@@ -36,6 +36,10 @@ export default function EditProject({ route, navigation }) {
     navigation.navigate("Home", { screen: "Projects" });
   };
 
+  const cancelPressed = () => {
+    navigation.navigate("Home", { screen: "Projects" });
+  };
+
   const onSelectedItemsChange = (selectedItems) => {
     setProjectMembers(selectedItems);
   };
@@ -91,6 +95,7 @@ export default function EditProject({ route, navigation }) {
         </View>
       ))}
       <Button title="Save" onPress={savePressed}></Button>
+      <Button title="Cancel" onPress={cancelPressed}></Button>
     </View>
   );
 }
