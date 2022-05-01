@@ -7,6 +7,7 @@ import {
   query,
   getDocFromCache,
   addDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 const config = {
@@ -37,6 +38,10 @@ export async function getOneFromCache(name, id) {
   return snapshot;
 }
 
-export default function add(name, data) {
+export function add(name, data) {
   return addDoc(collection(db, name), data);
+}
+
+export function editOne(name, data) {
+  return updateDoc(doc(db, name, data.id), data);
 }
