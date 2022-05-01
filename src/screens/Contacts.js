@@ -8,6 +8,7 @@ import {
   Text,
   ScrollView,
   View,
+  Pressable,
 } from "react-native";
 
 import app from "../../app.json";
@@ -17,8 +18,8 @@ import React, { useEffect } from "react";
 export default function Contact() {
   const [member, setMember] = useState(null);
   const [error, setError] = useState(false);
-  const [allContacts, setAllContacts] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [letterFilter, setLetterFilter] = useState("");
   const screen = Dimensions.get("screen");
   const styles = createStyles({
     color: member?.favoriteColor,
@@ -27,38 +28,68 @@ export default function Contact() {
     screen,
   });
 
-  const filterItem = (curcat) => {
-    const newItem = allContacts.filter((newVal) => {
-      return newVal.category === curcat;
-      // comparing category for displaying data
-    });
-    setContacts(newItem);
-  };
   const header = (
     <View style={styles.header}>
       <Text style={styles.title}>{app.expo.name}</Text>
     </View>
   );
-  useEffect(() => {
+  const onNewPressed = (le) => {
+    setLetterFilter(le);
+  };
+
+  var alphabet = new Array(26)
+    .fill(1)
+    .map((_, i) => String.fromCharCode(97 + i));
+  function getContacts() {
     (async () => {
       const { status } = await Contacts.requestPermissionsAsync();
       if (status === "granted") {
         const { data: dataContact } = await Contacts.getContactsAsync();
-
         if (dataContact.length > 0) {
-          setAllContacts(dataContact);
-          setContacts(dataContact);
+          if (letterFilter == "") {
+            setContacts(dataContact);
+          } else {
+            var result = dataContact.filter((item) => {
+              if (item.firstName != null) {
+                return item.firstName.toLowerCase().startsWith(letterFilter);
+              }
+            });
+            setContacts(result);
+          }
         }
       }
     })();
-  }, []);
+  }
+  useEffect(() => {
+    getContacts();
+  }, [letterFilter]);
 
   return (
     <ScrollView style={styles.root}>
       {header}
+      <View>
+        {alphabet.map((letter, index) => (
+          <View key={index}>
+            <Pressable
+              title={letter}
+              onPress={() => onNewPressed(letter)}
+              style={styles.Button}
+            >
+              <Text style={styles.buttonText}>{letter}</Text>
+            </Pressable>
+          </View>
+        ))}
+        <Pressable
+          style={styles.Button}
+          title="All"
+          onPress={() => onNewPressed("")}
+        >
+          <Text style={styles.buttonText}>All</Text>
+        </Pressable>
+      </View>
       <View style={styles.separator}>
         {contacts.map((contact) => (
-          <View Key={contact.id} style={styles.global}>
+          <View key={contact.id} style={styles.global}>
             <Text style={styles.contactName}>{contact.firstName}</Text>
             <Image
               source={
@@ -141,5 +172,19 @@ const createStyles = ({ color, error, member, screen }) =>
     },
     separator: {
       padding: 10,
+    },
+    Button: {
+      flex: 0,
+      marginHorizontal: 50,
+      backgroundColor: "black",
+      color: "white",
+      borderRadius: 5,
+      alignItems: "center",
+      justifyContent: "center",
+      height: 35,
+      marginTop: 10,
+    },
+    buttonText: {
+      color: "white",
     },
   });
