@@ -26,13 +26,6 @@ export default function Contact() {
     member: Boolean(member),
   });
 
-  // function filterItem() {
-  //   const newItem = allContacts.filter((newVal) => {
-  //     return newVal.filter((f) => f.type.toLowerCase().startsWith("a"));
-  //     // comparing category for displaying data
-  //   });
-  //   setContacts(newItem);
-  // }
   const header = (
     <View style={styles.header}>
       <Text style={styles.title}>{app.expo.name}</Text>
@@ -42,34 +35,10 @@ export default function Contact() {
     setLetterFilter(le);
     console.log("onNewPressed");
   };
-  const alphabet = [
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
-  ];
+
+  var alphabet = new Array(26)
+    .fill(1)
+    .map((_, i) => String.fromCharCode(97 + i));
   function getContacts() {
     (async () => {
       const { status } = await Contacts.requestPermissionsAsync();
@@ -77,7 +46,6 @@ export default function Contact() {
         const { data: dataContact } = await Contacts.getContactsAsync();
 
         if (dataContact.length > 0) {
-          console.log(letterFilter);
           if (letterFilter == "") {
             setContacts(dataContact);
           } else {
