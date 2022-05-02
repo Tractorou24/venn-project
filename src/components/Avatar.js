@@ -5,11 +5,11 @@ const SIZE = 100;
 export default function Avatar({
   color = "#000",
   label,
-  size = SIZE,
   marginTop = 0,
   position,
+  size = SIZE,
 }) {
-  const styles = createStyles({ color, marginTop, position });
+  const styles = createStyles({ color, marginTop, position, size });
   return (
     <View style={styles.container}>
       <Text style={styles.initials}>{label}</Text>
@@ -17,12 +17,12 @@ export default function Avatar({
   );
 }
 
-const createStyles = ({ color, marginTop, position }) =>
+const createStyles = ({ color, marginTop, position, size }) =>
   StyleSheet.create({
     container: {
       flex: 0,
-      width: SIZE,
-      height: SIZE,
+      width: size,
+      height: size,
       borderRadius: 15,
       borderWidth: 8,
       borderStyle: "solid",
